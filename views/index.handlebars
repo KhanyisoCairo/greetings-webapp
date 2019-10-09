@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="stylesheet" href="css/skeleton.css">
+  <link rel="stylesheet" href="css/style.css">
+
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+    integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+  <div class="row">
+
+
+
+    <div class="col-12 ">
+
+      <div class="language">
+
+        <h6>Greetings</h6>
+        <form action="/greetings" method="POST">
+          Name:<br>
+          <input type="text" value="" class="textName"  placeholder="enter Name"name="firstname">
+        </form><br>
+
+        <form action="/greetings" method="POST">
+          <input type="radio" class="radioBtn" name="taal" value="{{lang.Isixhosa}}"> Isixhosa
+          <input type="radio" class="radioBtn" name="taal" value="{{lang.English}}"> English
+          <input type="radio" class="radioBtn" name="taal" value="{{lang.Afrikaans}}"> Afrikaans<br><br>
+        </form action="/greetings" method="POST">
+        <form action="/greet">
+          <input class="submBtn" type="submit" value="greet-Me" id="greetBtn"><br><br>
+        </form>
+
+        <input class="clearBtn" type="submit" value="Reset" id="resetBtn">
+        <div class="row">
+          <div class="msg col-12">
+
+          </div>
+
+          <div class="counter col-12">
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </div>
+  <style>
+    .header {
+      font-size: 50px;
+      background-image: url("/home/codex/projects/greetings/hello.webp");
+      padding: 5em;
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+      text-align: center;
+    }
+  </style>
+
+  {{!-- <script src="greet.js"></script>
+  <script src="greet-DOM.js"></script> --}}
+  <script>
+    $(".textName").keyup(function (e) {
+      var regex = /^[a-zA-Z]+$/;
+      (regex.test(this.value) !== true) ? this.value = this.value.replace(/[^a-zA-Z]+/, '') : this.value
+    });
+  </script>
+</body>
+
+</html>

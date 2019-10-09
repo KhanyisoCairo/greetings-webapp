@@ -1,0 +1,29 @@
+{
+  "name": "greetings-webapp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "asserts": "^4.0.2",
+    "body-parser": "^1.19.0",
+    "bootstrap": "^4.3.1",
+    "chalk": "^2.4.2",
+    "express": "^4.17.1",
+    "express-flash": "0.0.2",
+    "express-handlebars": "^3.1.0",
+    "express-session": "^1.16.2",
+    "figlet": "^1.2.4"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.3"
+  }
+}
