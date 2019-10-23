@@ -24,28 +24,22 @@
       <div class="language">
 
         <h6>Greetings</h6>
-        <form action="/greetings" method="POST">
+        <form action="/" method="POST">
           Name:<br>
-          <input type="text" value="" class="textName"  placeholder="enter Name"name="firstname">
-        </form><br>
-
-        <form action="/greetings" method="POST">
-          <input type="radio" class="radioBtn" name="taal" value="{{lang.Isixhosa}}"> Isixhosa
-          <input type="radio" class="radioBtn" name="taal" value="{{lang.English}}"> English
-          <input type="radio" class="radioBtn" name="taal" value="{{lang.Afrikaans}}"> Afrikaans<br><br>
-        </form action="/greetings" method="POST">
-        <form action="/greet">
+          <input type="text" value="" class="textName" placeholder="enter Name" name="firstname">
+          <br>
+          <input type="radio" class="radioBtn" name="taal" value="IsiXhosa"> IsiXhosa
+          <input type="radio" class="radioBtn" name="taal" value="English"> English
+          <input type="radio" class="radioBtn" name="taal" value="Afrikaans"> Afrikaans
           <input class="submBtn" type="submit" value="greet-Me" id="greetBtn"><br><br>
         </form>
-
-        <input class="clearBtn" type="submit" value="Reset" id="resetBtn">
         <div class="row">
           <div class="msg col-12">
-
+            {{greetings}}
           </div>
-
           <div class="counter col-12">
-
+            <a href="/greetings/counter">Counter</a>
+            {{counter}}
           </div>
         </div>
       </div>
@@ -63,9 +57,6 @@
       text-align: center;
     }
   </style>
-
-  {{!-- <script src="greet.js"></script>
-  <script src="greet-DOM.js"></script> --}}
   <script>
     $(".textName").keyup(function (e) {
       var regex = /^[a-zA-Z]+$/;

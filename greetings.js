@@ -2,22 +2,20 @@ module.exports = function greetFactory(namesList) {
 
     var namesGreeted = namesList || {};
     function greet(userName, language) {
-        if(userName === ""){
-            return 
-        }
-         else if (language === ""){
+        if (userName === "" || userName === undefined) {
             return
         }
-        var name = userName.toUpperCase().charAt(0) + userName.slice(1) 
-        var name1 = userName.toLowerCase();
-        if (namesGreeted[name1] === undefined) {
-            namesGreeted[name1] = 1; 
-      
-          
-        
+        else if (language === "") {
+            return
+        }
+        userName = userName.toLowerCase();
+        var name = userName.toUpperCase().charAt(0) + userName.slice(1)
+        if (namesGreeted[name] === undefined) { // name not greeted nefore
+            namesGreeted[name] = 1;
+
         } else {
-             namesGreeted[name1] = namesGreeted[name1] + 1;
-         
+            //update counter
+            namesGreeted[name] = namesGreeted[name] + 1;
         }
 
         if (language === "English") {
@@ -26,16 +24,21 @@ module.exports = function greetFactory(namesList) {
         else if (language === "Afrikaans") {
             return "Hallo, " + name + "!";
         }
-        if (language === "IsiXhosa") {
+        else if (language === "IsiXhosa") {
             return "Molo, " + name + "!";
         }
+
+
     }
 
     function getName() {
         return namesGreeted;
     }
 
-    function clear(){
+
+
+
+    function clear() {
         namesGreeted = {};
     }
 
@@ -44,12 +47,13 @@ module.exports = function greetFactory(namesList) {
         return Object.keys(namesGreeted).length;
 
     }
-    
+
 
     return {
         clear,
         getName,
         greet,
-        getCounter,
+        getCounter
+        
     }
 }
