@@ -90,7 +90,6 @@ app.get('/greetings/counter', function (req, res) {
 
   res.render('greetings', { greetings: greetFactory.greet(), });
 
- 
 
 });
 
