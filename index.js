@@ -9,8 +9,17 @@ var app = express();
 
 
 
+const pg = require("pg");
+const Pool = pg.Pool;
 
-const greetFactory = GreetFactory();
+const connectionString = process.env.DATABASE_URL || 'postgresql://codes:codex123@localhost/greet';
+
+const pool = new Pool({
+    connectionString
+});
+
+
+const greetFactory = GreetFactory(pool);
 
 app.engine('handlebars', exphbs({ defaultLayout: 'main' 
 // helpers : {
@@ -44,51 +53,48 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 //  Routes
-app.get('/', function (req, res) {
+app.get('/',async function (req, res) {
 
-  greetings = greetFactory.greet(req.body.firstname, req.body.taal);
-  let counter = greetFactory.getCounter();
+  greetings =await greetFactory.greet(req.body.firstname, req.body.taal);
+  let counter =await greetFactory.getCounter();
   res.render('index',{
     counter : counter
   })
 
 });
 
-app.post('/', function (req, res) {
-  greetings = greetFactory.greet(req.body.firstname, req.body.taal);
-  let counter = greetFactory.getCounter();
+app.post('/', async function (req, res) {
+  greetings = await greetFactory.greet(req.body.firstname, req.body.taal);
+  let counter = await greetFactory.getCounter();
   res.render('index', { greetings, counter: counter });
-  console.log(counter, "line 49");
+  // console.log(counter, "line 70");
 
   // res.redirect('/');
 });
-app.post('/greetings', function (req, res) {
+app.post('/greetings', async function (req, res) {
 
 
-  greetFactory.greet(req.body.firstname, req.body.taal)
-  console.log();
-
-
+ await greetFactory.greet(req.body.firstname, req.body.taal)
   res.redirect("/");
 });
 
-app.post('/greetings', function (req, res) {
+app.post('/greetings',async function (req, res) {
   const actionType = req.body.actionType
-  greetFactory.greet(actionType)
+ await greetFactory.greet(actionType)
   res.redirect("/");
 });
 
 
-app.get('/greetings', function (req, res) {
+app.get('/greetings', async function (req, res) {
 
-  res.render('greetings', { lang: greetFactory.greet()});
+  res.render('greetings', { lang:await greetFactory.greet()});
 
-  console.log({ lang: greetFactory.greet() }, "this is line");
+  // console.log({ lang: await greetFactory.greet() }, "this is line");
 
 });
-app.get('/greetings/counter', function (req, res) {
+app.get('/greetings/counter', async function (req, res) {
 
-  res.render('greetings', { greetings: greetFactory.greet(), });
+  res.render('greetings', { greetings:await greetFactory.greet(), });
 
 
 });
@@ -104,7 +110,7 @@ app.get('/addFlash', function (req, res) {
   res.redirect('/');
 });
 
-const PORT = process.env.PORT || 5200;
+const PORT = process.env.PORT || 5150;
 app.listen(PORT, function () {
   console.log("App started at port:", PORT)
 });

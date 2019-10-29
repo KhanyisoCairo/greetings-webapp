@@ -22,7 +22,8 @@
     "express-flash": "0.0.2",
     "express-handlebars": "^3.1.0",
     "express-session": "^1.16.2",
-    "figlet": "^1.2.4"
+    "figlet": "^1.2.4",
+    "pg": "^7.12.1"
   },
   "devDependencies": {
     "nodemon": "^1.19.3"
