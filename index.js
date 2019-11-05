@@ -105,8 +105,6 @@ app.get('/greetings/:names', async function (req, res) {
     names
 
   });
-  // console.log("line 105");
-  // res.render('greetings', { greetings: get });
 });
 
 app.get('/', function (req, res) {
