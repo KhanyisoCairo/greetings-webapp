@@ -17,18 +17,18 @@ module.exports = function greetFactory(pool) {
         if (namesGreeted[name] === undefined) { // name not greeted nefore
             namesGreeted[name] = 1;
             var store = await pool.query('select * from greeted WHERE greet_name = $1', [name])
-                    
-                    
-                if (store.rowCount === 1) {
-                    await pool.query('UPDATE greeted greet_name SET greet_count = greet_count + 1 WHERE greet_name = $1', [name])
-                }
-                else {
-                    await pool.query('insert into greeted (greet_name, greet_count) values ($1, $2)', [name, 1]);
-                }
 
 
+            if (store.rowCount === 1) {
+                await pool.query('UPDATE greeted greet_name SET greet_count = greet_count + 1 WHERE greet_name = $1', [name]);
+            }
+            else {
+                await pool.query('insert into greeted (greet_name, greet_count) values ($1, $2)', [name, 1]);
+            }
         } else {
             //update counter
+            await pool.query('UPDATE greeted greet_name SET greet_count = greet_count + 1 WHERE greet_name = $1', [name]);
+
             namesGreeted[name] = namesGreeted[name] + 1;
         }
 
@@ -41,26 +41,27 @@ module.exports = function greetFactory(pool) {
         else if (language === "IsiXhosa") {
             return "Molo, " + name + "!";
         }
-
-
     }
 
     function getName() {
         return namesGreeted;
     }
 
-
-
-
     function clear() {
         namesGreeted = {};
     }
 
-    // function getCounter() {
-    //     console.log(Object.keys(namesGreeted).length);
-    //     return Object.keys(namesGreeted).length;
+    async function getTotalCounter(names) {
+        var namesOnDB = await pool.query('select greet_count from greeted where greet_name = $1', [names])
+        if (namesOnDB.rows.length > 0) {
+            return namesOnDB.rows[0].greet_count;
+        }
+        else{
+            return false
+        }
+        // return namesOnDB.rowCount;
+    }
 
-    // }
     async function getCounter() {
         var counter = await pool.query('select count(*) from greeted')
         for (var i = 0; i < counter.rows.length; i++) {
@@ -69,34 +70,19 @@ module.exports = function greetFactory(pool) {
         return checkCount.count
     }
 
-//     async function storedGreetedNames(names) {
-//    //  name = names.charAt(0).toUpperCase() + names.slice(1).toLowerCase();
-//         // var myNames = regex.test(myNames)
-
-//         if (myNames === false) {
-//             known = await pool.query('select distinct greet_name, greet_count from greeted ORDER BY greet_name')
-
-//             if (myNames.length > 0) {
-//                 var store = await pool.query('select * from greeted WHERE greet_name = $1', [name])
-                    
-                    
-//                 if (store.rowCount === 1) {
-//                     await pool.query('UPDATE greeted greet_name SET greet_count = greet_count + 1 WHERE greet_name = $1', [name])
-//                 }
-//                 else {
-//                     await pool.query('insert into greeted (greet_name, greet_count) values ($1, $2)', [name, 1]);
-//                 }
-//             }
-//         }
-//     }
     async function getData() {
         known = await pool.query('select distinct greet_name, greet_count from greeted')
         console.log(known.rows);
         return known.rows
-        
+
     }
-    async function resetDb() {
+    async function resetDataBase() {
         await pool.query('DELETE from greeted')
+    }
+   
+    async function get_names() {
+        let get = await pool.query('SELECT * FROM greeted')
+        return get.rows
     }
 
     return {
@@ -104,9 +90,11 @@ module.exports = function greetFactory(pool) {
         getName,
         greet,
         getCounter,
-        // storedGreetedNames,
         getData,
-        resetDb
+        resetDataBase,
+        get_names,
+        getTotalCounter
+       
 
     }
 }
