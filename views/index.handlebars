@@ -26,6 +26,10 @@
         <h6>Greetings</h6>
         <form action="/" method="POST">
           Name:<br>
+
+          <div class="error col-12">
+            <h1> {{messages.error}}</h1>
+          </div>
           <input type="text" value="" class="textName" placeholder="enter Name" name="firstname">
           <br>
           <input type="radio" class="radioBtn" name="taal" value="IsiXhosa"> IsiXhosa
@@ -37,8 +41,9 @@
           <div class="msg col-12">
             {{greetings}}
           </div>
+
           <div class="counter col-12">
-            <a href="/greetings/counter">Counter</a>
+            <a href="/greetings/counter">Names Greeted</a>
             {{counter}}
           </div>
         </div>

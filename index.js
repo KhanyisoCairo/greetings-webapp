@@ -72,6 +72,10 @@ app.post('/', async function (req, res) {
 });
 //this is to post the language and name
 app.post('/greetings', async function (req, res) {
+  if (res.body.firstname === "") {
+    req.flash('error', 'please enter valid name')
+
+  }
   await greetFactory.greet(req.body.firstname, req.body.taal)
   res.redirect("/");
 });
@@ -106,18 +110,32 @@ app.get('/greetings/:names', async function (req, res) {
 
   });
 });
+app.post('/back-btn', async function (req, res) {
+  res.redirect("/")
+});
+app.post('/back', async function (req, res) {
+  res.redirect('/greetings/counter');
+})
 
 app.get('/', function (req, res) {
-  res.send('<h2>Molo</h2>')
-  req.flash('info', 'enter name');
+  // res.send('<h2>Molo</h2>')
+  req.flash('info', 'helooo');
   res.render('greetings', {
     title: 'Home'
   })
 });
-app.get('/addFlash', function (req, res) {
-  req.flash('info', 'enter valid name');
+app.get('/addFlash', async function (req, res) {
+
+  if (res.body.firstname = "") {
+    req.flash('info', 'enter valid name');
+  }
   res.redirect('/');
 });
+// app.get('/', function (req, res) {
+//   res.send('<h2>Molo</h2>')
+//   req.flash('info', 'Flash Message Added');
+//   res.redirect('/');
+// });
 
 const PORT = process.env.PORT || 3004;
 app.listen(PORT, function () {
