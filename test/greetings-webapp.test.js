@@ -10,7 +10,7 @@ const connectionString = process.env.DATABASE_URL || 'postgresql://codex:delaan@
 const pool = new Pool({
     connectionString
 });
-describe('The basic database web app', function(){
+describe('The database greeted-webapp', function(){
 
     beforeEach(async function(){
         // clean the tables before each test run
