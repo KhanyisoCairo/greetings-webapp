@@ -5,7 +5,6 @@ const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
 const GreetFactory = require('./greetings');
 const pg = require("pg");
-let greetings = "";
 var app = express();
 
 const Pool = pg.Pool;
@@ -16,22 +15,11 @@ const pool = new Pool({
   connectionString
 });
 
-
 const greetFactory = GreetFactory(pool);
-
-// const handlebarsSetup = exphbs({
-//   partialsDir: "./views/partials",
-//   viewPath: "./views",
-//   layoutsDir: "./views/layouts"
-// });
-// app.engine('handlebars', handlebarsSetup);
-// app.set("view engine", "Handlebars")
 
 app.engine('handlebars', exphbs({
   defaultLayout: 'main'
-
 }));
-
 app.set('view engine', 'handlebars');
 // initialise session middleware - flash-express depends on it
 app.use(session({
@@ -39,14 +27,10 @@ app.use(session({
   resave: false,
   saveUninitialized: true
 }));
-
 // initialise the flash middleware
 app.use(flash())
 app.use(express.static('public'));
-
 app.use(bodyParser.urlencoded({ extended: false }))
-
-
 app.use(bodyParser.json())
 
 //  Routes
@@ -55,26 +39,27 @@ app.get('/', async function (req, res) {
   greetings = await greetFactory.greet(req.body.firstname, req.body.taal);
   let counter = await greetFactory.getCounter();
   res.render('index', { counter: counter })
-
 });
 //home displaying name and language and counter
 app.post('/', async function (req, res) {
-  try {
-    let greetings = await greetFactory.greet(req.body.firstname, req.body.taal);
-    let counter = await greetFactory.getCounter();
-    res.render('index', { greetings, counter: counter });
-    console.log(counter);
+  let greetings = await greetFactory.greet(req.body.firstname, req.body.taal);
+  let counter = await greetFactory.getCounter();
+  let errorName = await greetFactory.getError(req.body.firstname);
+  let errorLanguage = await greetFactory.getError(req.body.lang);
 
-  } catch (error) {
-    console.log("error");
+  if (errorName.firstname === "" || errorName.firstname === undefined) {
+    req.flash('error', errorName);
   }
-
+  else if (errorLanguage.lang === "" || errorLanguage.lang === undefined) {
+    req.flash('error', errorLanguage);
+  }
+  res.render('index', { greetings, counter: counter });
+  console.log(counter);
 });
 //this is to post the language and name
 app.post('/greetings', async function (req, res) {
   if (res.body.firstname === "") {
     req.flash('error', 'please enter valid name')
-
   }
   await greetFactory.greet(req.body.firstname, req.body.taal)
   res.redirect("/");
@@ -88,16 +73,10 @@ app.post('/greetings', async function (req, res) {
   res.redirect("/");
 });
 
-app.get('/greetings', async function (req, res) {
-  res.render('greetings', { lang: await greetFactory.greet() });
-
-});
 //gets the greet_name and greet_count and ID for the table
 app.get('/greetings/counter', async function (req, res) {
   let get = await greetFactory.get_names();
   res.render('greetings', { greetings: get });
-  // console.log(get, "line 90");
-
 });
 app.get('/greetings/:names', async function (req, res) {
   var names = req.params.names
@@ -115,27 +94,13 @@ app.post('/back-btn', async function (req, res) {
 });
 app.post('/back', async function (req, res) {
   res.redirect('/greetings/counter');
-})
-
-app.get('/', function (req, res) {
-  // res.send('<h2>Molo</h2>')
-  req.flash('info', 'helooo');
-  res.render('greetings', {
-    title: 'Home'
-  })
 });
-app.get('/addFlash', async function (req, res) {
 
-  if (res.body.firstname = "") {
-    req.flash('info', 'enter valid name');
-  }
+app.post('/reset', async function (req, res) {
+  await greetFactory.resetDataBase();
+
   res.redirect('/');
-});
-// app.get('/', function (req, res) {
-//   res.send('<h2>Molo</h2>')
-//   req.flash('info', 'Flash Message Added');
-//   res.redirect('/');
-// });
+})
 
 const PORT = process.env.PORT || 3004;
 app.listen(PORT, function () {

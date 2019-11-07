@@ -16,11 +16,8 @@
 <body>
 
   <div class="row">
-
-
-
     <div class="col-12 ">
-
+      {{!-- <img src="hello.jpg" class="picture" style="header"> --}}
       <div class="language">
 
         <h6>Greetings</h6>
@@ -41,11 +38,12 @@
           <div class="msg col-12">
             {{greetings}}
           </div>
-
           <div class="counter col-12">
             <a href="/greetings/counter">Names Greeted</a>
             {{counter}}
           </div>
+          <form action="/reset" method="POST">
+            <input class="submBtn" type="submit" value="reset" id="ResetBtn"><br><br></form>
         </div>
       </div>
     </div>

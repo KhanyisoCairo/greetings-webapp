@@ -22,5 +22,13 @@
 }
 .error{
   color: crimson;
-  font-weight: bold;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: normal;
+}
+.background {
+
+  background-image: url("/home/codex/projects/greetings-webapp/public/error.js"); 
+  padding: 5em;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
 }

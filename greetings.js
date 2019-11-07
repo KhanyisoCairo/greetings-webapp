@@ -2,7 +2,6 @@ module.exports = function greetFactory(pool) {
 
     var namesGreeted = {};
     var name;
-    var table;
     async function greet(userName, language) {
         table = await pool.query('select distinct greet_name, greet_count from greeted')
 
@@ -14,11 +13,9 @@ module.exports = function greetFactory(pool) {
         }
         userName = userName.toLowerCase();
         name = userName.toUpperCase().charAt(0) + userName.slice(1)
-        if (namesGreeted[name] === undefined) { // name not greeted nefore
+        if (namesGreeted[name] === undefined) {
             namesGreeted[name] = 1;
             var store = await pool.query('select * from greeted WHERE greet_name = $1', [name])
-
-
             if (store.rowCount === 1) {
                 await pool.query('UPDATE greeted greet_name SET greet_count = greet_count + 1 WHERE greet_name = $1', [name]);
             }
@@ -31,7 +28,6 @@ module.exports = function greetFactory(pool) {
 
             namesGreeted[name] = namesGreeted[name] + 1;
         }
-
         if (language === "English") {
             return "Hello, " + name + "!";
         }
@@ -42,24 +38,20 @@ module.exports = function greetFactory(pool) {
             return "Molo, " + name + "!";
         }
     }
-
     function getName() {
         return namesGreeted;
     }
-
     function clear() {
         namesGreeted = {};
     }
-
     async function getTotalCounter(names) {
         var namesOnDB = await pool.query('select greet_count from greeted where greet_name = $1', [names])
         if (namesOnDB.rows.length > 0) {
             return namesOnDB.rows[0].greet_count;
         }
-        else{
+        else {
             return false
         }
-        // return namesOnDB.rowCount;
     }
 
     async function getCounter() {
@@ -69,32 +61,30 @@ module.exports = function greetFactory(pool) {
         }
         return checkCount.count
     }
-
-    async function getData() {
-        known = await pool.query('select distinct greet_name, greet_count from greeted')
-        console.log(known.rows);
-        return known.rows
-
-    }
     async function resetDataBase() {
         await pool.query('DELETE from greeted')
     }
-   
     async function get_names() {
         let get = await pool.query('SELECT * FROM greeted')
         return get.rows
     }
+    async function getError(name, language) {
 
-    return {
-        clear,
-        getName,
-        greet,
-        getCounter,
-        getData,
-        resetDataBase,
-        get_names,
-        getTotalCounter
-       
-
+        if (name === "" || name === undefined) {
+            return "please enter valid name";
+        }
+         else if (language === "" || language === undefined) {
+            return "please select a language"
+        }
     }
-}
+        return {
+            clear,
+            getName,
+            greet,
+            getCounter,
+            resetDataBase,
+            get_names,
+            getTotalCounter,
+            getError
+        }
+    }
