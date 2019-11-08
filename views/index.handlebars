@@ -23,27 +23,28 @@
         <h6>Greetings</h6>
         <form action="/addName" method="POST">
           Name:<br>
-
           <div class="error col-12">
             <h1> {{messages.error}}</h1>
+            
           </div>
           <input type="text" value="" class="textName" placeholder="enter Name" name="firstname">
           <br>
-          <input type="radio" class="radioBtn" name="taal" value="IsiXhosa"> IsiXhosa
-          <input type="radio" class="radioBtn" name="taal" value="English"> English
-          <input type="radio" class="radioBtn" name="taal" value="Afrikaans"> Afrikaans
-          <input class="submBtn" type="submit" value="greet-Me" id="greetBtn"><br><br>
+          <input type="radio" class="radioBtn" name="lang" value="IsiXhosa"> IsiXhosa
+          <input type="radio" class="radioBtn" name="lang" value="English"> English
+          <input type="radio" class="radioBtn" name="lang" value="Afrikaans"> Afrikaans
+          <input class="submBtn" type="submit" value="greet-Me" id="greetBtn"><br>
         </form>
+           <form action="/reset" method="POST">
+            <input class="submBtn" type="submit" value="reset" id="ResetBtn"><br><br></form>
         <div class="row">
           <div class="msg col-12">
             {{greetings}}
-          </div>
+          </div><br>
           <div class="counter col-12">
             <a href="/greetings/counter">Names Greeted</a>
             {{counter}}
           </div>
-          <form action="/reset" method="POST">
-            <input class="submBtn" type="submit" value="reset" id="ResetBtn"><br><br></form>
+       
         </div>
       </div>
     </div>

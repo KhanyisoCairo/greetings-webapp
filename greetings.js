@@ -3,14 +3,15 @@ module.exports = function greetFactory(pool) {
     var namesGreeted = {};
     var name;
     async function greet(userName, language) {
+        
         table = await pool.query('select distinct greet_name, greet_count from greeted')
 
-        if (userName === "" || userName === undefined) {
-            return
-        }
-        else if (language === "") {
-            return
-        }
+        // if (userName === "" || userName === undefined) {
+        //     return
+        // }
+        // else if (language === "" || language === undefined) {
+        //     return
+        // }
         userName = userName.toLowerCase();
         name = userName.toUpperCase().charAt(0) + userName.slice(1)
         if (namesGreeted[name] === undefined) {
@@ -38,6 +39,7 @@ module.exports = function greetFactory(pool) {
             return "Molo, " + name + "!";
         }
     }
+
     function getName() {
         return namesGreeted;
     }
@@ -62,22 +64,23 @@ module.exports = function greetFactory(pool) {
         return checkCount.count
     }
     async function resetDataBase() {
-        let reset = await pool.query('DELETE FROM greeted')
+        let reset = await pool.query('TRUNCATE table greeted restart identity')
+        namesGreeted = {}
         return reset.rows
     }
     async function get_names() {
         let get = await pool.query('SELECT * FROM greeted')
         return get.rows
     }
-    async function getError(name, language) {
+    // async function getError(name, language) {
 
-        if (name === "" || name === undefined) {
-            return "please enter valid name";
-        }
-        else if (language === "" || language === undefined) {
-            return "please select a language"
-        }
-    }
+    //     if (name === "" || name === undefined) {
+    //         return "please enter valid name";
+    //     }
+    //     else if (language === "" || language === undefined) {
+    //         return "please select a language"
+    //     }
+    // }
     return {
         clear,
         getName,
@@ -86,6 +89,6 @@ module.exports = function greetFactory(pool) {
         resetDataBase,
         get_names,
         getTotalCounter,
-        getError
+        // getError
     }
 }

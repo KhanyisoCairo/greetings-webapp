@@ -36,31 +36,30 @@ app.use(bodyParser.json())
 //  Routes
 //home 
 app.get('/', async function (req, res) {
-  greetings = await greetFactory.greet(req.body.firstname, req.body.taal);
   let counter = await greetFactory.getCounter();
-  res.render('index', { counter: counter })
+  res.render('index', {counter: counter });
 });
 //home displaying name and language and counter
 app.post('/addName', async function (req, res) {
-  let greetings = await greetFactory.greet(req.body.firstname, req.body.taal);
-  let counter = await greetFactory.getCounter();
-  let errorName = await greetFactory.getError(req.body.firstname);
-  let errorLanguage = await greetFactory.getError(req.body.lang);
-
-  if (errorName.firstname === "" || errorName.firstname === undefined) {
-    req.flash('error', errorName);
+  var name = req.body.firstname;
+  var language = req.body.lang;
+  console.log(language);
+   
+  if (name === "" ) {
+    req.flash('error', 'please enter a valid name');     
   }
-  else if (errorLanguage.lang === "" || errorLanguage.lang === undefined) {
-    req.flash('error', errorLanguage);
+   if ( language === undefined || language === "") {
+     console.log("no language")
+     req.flash('error','please select a language');
+     res.render('index');
+    } else {
+      let greetings =  await greetFactory.greet(name , language);
+      let counter = await greetFactory.getCounter();
+      res.render('index', {greetings: greetings, counter: counter });
   }
-  res.render('index', { greetings, counter: counter });
-  console.log(counter);
 });
 //this is to post the language and name
 app.post('/greetings', async function (req, res) {
-  if (res.body.firstname === "") {
-    req.flash('error', 'please enter valid name')
-  }
   await greetFactory.greet(req.body.firstname, req.body.taal)
   res.redirect("/");
 });
@@ -102,7 +101,7 @@ app.post('/reset', async function (req, res) {
   res.redirect('/');
 })
 
-const PORT = process.env.PORT || 3004;
+const PORT = process.env.PORT || 3008;
 app.listen(PORT, function () {
   console.log("App started at port:", PORT)
 });
