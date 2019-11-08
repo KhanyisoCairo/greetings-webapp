@@ -5,13 +5,6 @@ module.exports = function greetFactory(pool) {
     async function greet(userName, language) {
         
         table = await pool.query('select distinct greet_name, greet_count from greeted')
-
-        // if (userName === "" || userName === undefined) {
-        //     return
-        // }
-        // else if (language === "" || language === undefined) {
-        //     return
-        // }
         userName = userName.toLowerCase();
         name = userName.toUpperCase().charAt(0) + userName.slice(1)
         if (namesGreeted[name] === undefined) {
@@ -72,15 +65,6 @@ module.exports = function greetFactory(pool) {
         let get = await pool.query('SELECT * FROM greeted')
         return get.rows
     }
-    // async function getError(name, language) {
-
-    //     if (name === "" || name === undefined) {
-    //         return "please enter valid name";
-    //     }
-    //     else if (language === "" || language === undefined) {
-    //         return "please select a language"
-    //     }
-    // }
     return {
         clear,
         getName,
@@ -89,6 +73,5 @@ module.exports = function greetFactory(pool) {
         resetDataBase,
         get_names,
         getTotalCounter,
-        // getError
     }
 }

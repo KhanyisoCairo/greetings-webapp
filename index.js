@@ -42,14 +42,11 @@ app.get('/', async function (req, res) {
 //home displaying name and language and counter
 app.post('/addName', async function (req, res) {
   var name = req.body.firstname;
-  var language = req.body.lang;
-  console.log(language);
-   
+  var language = req.body.lang; 
   if (name === "" ) {
     req.flash('error', 'please enter a valid name');     
   }
    if ( language === undefined || language === "") {
-     console.log("no language")
      req.flash('error','please select a language');
      res.render('index');
     } else {
@@ -67,11 +64,8 @@ app.post('/greetings', async function (req, res) {
 app.post('/greetings', async function (req, res) {
   const actionType = req.body.actionType
   await greetFactory.greet(actionType)
-  console.log(greetFactory.greet(actionType), "line 82");
-
   res.redirect("/");
 });
-
 //gets the greet_name and greet_count and ID for the table
 app.get('/greetings/counter', async function (req, res) {
   let get = await greetFactory.get_names();
@@ -79,8 +73,6 @@ app.get('/greetings/counter', async function (req, res) {
 });
 app.get('/greetings/:names', async function (req, res) {
   var names = req.params.names
-  console.log(names);
-
   res.render('greetCounter', {
     greet_name: await greetFactory.get_names(),
     counter: await greetFactory.getTotalCounter(names),
