@@ -41,7 +41,7 @@ app.get('/', async function (req, res) {
   res.render('index', { counter: counter })
 });
 //home displaying name and language and counter
-app.post('/', async function (req, res) {
+app.post('/addName', async function (req, res) {
   let greetings = await greetFactory.greet(req.body.firstname, req.body.taal);
   let counter = await greetFactory.getCounter();
   let errorName = await greetFactory.getError(req.body.firstname);
