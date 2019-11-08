@@ -1,7 +1,7 @@
 {
   "name": "greetings-webapp",
   "version": "1.0.0",
-  "description": "",
+  "description": "#### Counter * you need to create empty array * you add names greeted if a name have not greeted before * must need to show actions of greeted people * must set up the database",
   "main": "index.js",
   "directories": {
     "test": "test"
@@ -11,7 +11,7 @@
     "start": "node index.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "KhanyisoCairo",
   "license": "ISC",
   "dependencies": {
     "asserts": "^4.0.2",
@@ -24,9 +24,18 @@
     "express-session": "^1.16.2",
     "figlet": "^1.2.4",
     "handlebars": "^4.5.1",
+    "mocha": "^6.2.2",
     "pg": "^7.12.1"
   },
   "devDependencies": {
     "nodemon": "^1.19.3"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KhanyisoCairo/greetings-webapp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/KhanyisoCairo/greetings-webapp/issues"
+  },
+  "homepage": "https://github.com/KhanyisoCairo/greetings-webapp#readme"
 }
