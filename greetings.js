@@ -62,7 +62,8 @@ module.exports = function greetFactory(pool) {
         return checkCount.count
     }
     async function resetDataBase() {
-        await pool.query('DELETE from greeted')
+        let reset = await pool.query('DELETE FROM greeted')
+        return reset.rows
     }
     async function get_names() {
         let get = await pool.query('SELECT * FROM greeted')
@@ -73,18 +74,18 @@ module.exports = function greetFactory(pool) {
         if (name === "" || name === undefined) {
             return "please enter valid name";
         }
-         else if (language === "" || language === undefined) {
+        else if (language === "" || language === undefined) {
             return "please select a language"
         }
     }
-        return {
-            clear,
-            getName,
-            greet,
-            getCounter,
-            resetDataBase,
-            get_names,
-            getTotalCounter,
-            getError
-        }
+    return {
+        clear,
+        getName,
+        greet,
+        getCounter,
+        resetDataBase,
+        get_names,
+        getTotalCounter,
+        getError
     }
+}
