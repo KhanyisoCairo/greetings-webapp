@@ -7,6 +7,10 @@ module.exports = function greetFactory(pool) {
         table = await pool.query('select distinct greet_name, greet_count from greeted')
         userName = userName.toLowerCase();
         name = userName.toUpperCase().charAt(0) + userName.slice(1)
+
+        if(!userName || !lang){
+            return
+        }
         if (namesGreeted[name] === undefined) {
             namesGreeted[name] = 1;
             var store = await pool.query('select * from greeted WHERE greet_name = $1', [name])

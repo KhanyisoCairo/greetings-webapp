@@ -31,11 +31,13 @@
           <br>
           <input type="radio" class="radioBtn" name="lang" value="IsiXhosa"> IsiXhosa
           <input type="radio" class="radioBtn" name="lang" value="English"> English
-          <input type="radio" class="radioBtn" name="lang" value="Afrikaans"> Afrikaans
+          <input type="radio" class="radioBtn" name="lang" value="Afrikaans"> Afrikaans<br><br>
           <input class="submBtn" type="submit" value="greet-Me" id="greetBtn"><br>
         </form>
-           <form action="/reset" method="POST">
-            <input class="submBtn" type="submit" value="reset" id="ResetBtn"><br><br></form>
+           <form action="/reset" method="POST" class="col-6">
+            <input class="submBtn" type="submit" value="reset" id="ResetBtn">
+            </form>
+
         <div class="row">
           <div class="msg col-12">
             {{greetings}}
