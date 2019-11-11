@@ -8,7 +8,7 @@ module.exports = function greetFactory(pool) {
         userName = userName.toLowerCase();
         name = userName.toUpperCase().charAt(0) + userName.slice(1)
 
-        if(!userName || !lang){
+        if(!userName || !language){
             return
         }
         if (namesGreeted[name] === undefined) {

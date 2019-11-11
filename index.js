@@ -93,7 +93,7 @@ app.post('/reset', async function (req, res) {
   res.redirect('/');
 })
 
-const PORT = process.env.PORT || 3008;
+const PORT = process.env.PORT || 3004;
 app.listen(PORT, function () {
   console.log("App started at port:", PORT)
 });
