@@ -22,8 +22,7 @@
 }
 .error{
   color: crimson;
-  font-family: 'Courier New', Courier, monospace;
-  font-weight: normal;
+  font-size : 2em;
 }
 .background {
 
