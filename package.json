@@ -15,10 +15,10 @@
   "license": "ISC",
   "dependencies": {
     "asserts": "^4.0.2",
-    "body-parser": "^1.19.0",
+    "body-parser": "^1.20.1",
     "bootstrap": "^4.3.1",
     "chalk": "^2.4.2",
-    "express": "^4.17.1",
+    "express": "^4.18.2",
     "express-flash": "0.0.2",
     "express-handlebars": "^3.1.0",
     "express-session": "^1.16.2",
